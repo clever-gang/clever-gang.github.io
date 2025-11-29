@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clever Gang - Repository Showcase</title>
+    <meta name="description" content="Clever Gang - Repository Showcase">
+    <link rel="stylesheet" href="styles.css">
+    <!-- add cyber font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- Sidebar toggle button -->
+    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+        <span class="sidebar-toggle-icon"></span>
+    </button>
+
+    <!-- Sidebar header -->
+    <aside class="sidebar-header" id="sidebarHeader">
+        <header class="header">
+            <div class="container">
+                <h1 class="title">
+                    <span class="title-main glitch" data-text="Clever Gang">Clever Gang</span>
+                    <span class="title-sub glitch" data-text="Repository Showcase">Repository Showcase</span>
+                </h1>
+                <p class="subtitle">Ghost of Clyde</p>
+                <div class="header-actions">
+                    <button id="themeToggle" class="theme-toggle" title="Toggle animations">
+                        <span id="themeIcon"></span>
+                    </button>
+                </div>
+                <div class="stats-container cyber-stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalRepos">0</div>
+                        <div class="stat-label">Total Repositories</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalStars">0</div>
+                        <div class="stat-label">Total Stars</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalForks">0</div>
+                        <div class="stat-label">Total Forks</div>
+                    </div>
+                </div>
+                <div class="header-ornaments" aria-hidden="true">
+                    <span class="holo-bar holo-1"></span>
+                    <span class="holo-bar holo-2"></span>
+                    <span class="holo-bar holo-3"></span>
+                    <span class="scanline"></span>
+                </div>
+            </div>
+        </header>
+    </aside>
+
+    <main class="main" id="mainContent">
+        <div class="container">
+            <div class="controls cyber-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search repositories..." class="search-input">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="public">Public</button>
+                    <button class="filter-btn" data-filter="forked">Forked</button>
+                </div>
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Loading repositories...</p>
+            </div>
+
+            <div id="error" class="error" style="display: none;">
+                <p>Failed to load repositories. Please try again later.</p>
+            </div>
+
+            <div id="repoGrid" class="repo-grid">
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <div class="bottom-border" aria-hidden="true"></div>
+    <script src="script.js"></script>
+</body>
+
+</html>
