@@ -15,6 +15,9 @@ export const DOM = {
     sidebarHeader: document.getElementById('sidebarHeader')
 };
 
+// add module-level flag to remember desired repo-name glitch state
+let repoAnimationsEnabled = true;
+
 const observerOptions = {
     threshold: 0.1,
     rootMargin: '0px 0px -50px 0px'
@@ -89,6 +92,8 @@ export function displayRepositories(repos = [], searchValue = '') {
         repoGrid.appendChild(flagCard1);
         repoGrid.appendChild(flagCard2);
         observeCards();
+        // ensure flag cards respect current animation state (remove data-text/class if disabled)
+        setRepoCardAnimationsEnabled(repoAnimationsEnabled);
         return;
     }
 
@@ -103,6 +108,9 @@ export function displayRepositories(repos = [], searchValue = '') {
     });
 
     observeCards();
+
+    // apply current repo-name/data-text state to newly created cards
+    setRepoCardAnimationsEnabled(repoAnimationsEnabled);
 }
 
 export function createRepoCard(repo, index = 0) {
@@ -174,6 +182,10 @@ export function createRepoCard(repo, index = 0) {
 }
 
 export function setRepoCardAnimationsEnabled(enabled) {
+    // store the desired state
+    repoAnimationsEnabled = !!enabled;
+
+    // toggle transitions / opacity for cards (existing behavior)
     document.querySelectorAll('.repo-card').forEach(card => {
         if (enabled) {
             card.style.transition = '';
@@ -183,6 +195,30 @@ export function setRepoCardAnimationsEnabled(enabled) {
             card.style.transition = 'none';
             card.style.opacity = '1';
             card.style.transform = 'none';
+        }
+    });
+
+    // operate on elements that currently have .glitch OR that were previously disabled (have data-orig-text)
+    const glitchElements = document.querySelectorAll('.glitch, [data-orig-text]');
+
+    glitchElements.forEach(el => {
+        if (!enabled) {
+            // preserve original data-text if present, then remove it and the glitch class
+            if (el.hasAttribute('data-text')) {
+                el.setAttribute('data-orig-text', el.getAttribute('data-text'));
+                el.removeAttribute('data-text');
+            }
+            el.classList.remove('glitch');
+        } else {
+            // restore original data-text if we saved it, otherwise ensure it's present
+            if (el.hasAttribute('data-orig-text')) {
+                el.setAttribute('data-text', el.getAttribute('data-orig-text'));
+                el.removeAttribute('data-orig-text');
+            } else if (!el.hasAttribute('data-text')) {
+                // fallback: set data-text to the visible text
+                el.setAttribute('data-text', el.textContent || '');
+            }
+            el.classList.add('glitch');
         }
     });
 }

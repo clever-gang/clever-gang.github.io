@@ -95,7 +95,6 @@ body {
     padding: 56px 20px 32px 20px;
     border-radius: 12px;
     box-shadow: 0 12px 48px 24px rgba(0, 229, 255, 0.10), 0 6px 32px rgba(2, 4, 10, 0.18);
-    /* removed border */
     position: relative;
     overflow: visible;
     animation: none;
@@ -105,8 +104,6 @@ body {
 .header::before {
     display: none;
 }
-
-@keyframes headerFlicker {}
 
 /* Header ornaments: keep but reduce blur for subtlety */
 .header-ornaments {
@@ -271,9 +268,9 @@ body {
     gap: 32px;
     position: relative;
     overflow: hidden;
-    animation: cyberGlow 2.5s linear infinite;
 }
 
+/* Cyber controls before pseudo-element */
 .cyber-controls::before {
     content: '';
     position: absolute;
@@ -286,6 +283,70 @@ body {
     border: 1px solid #00ffe7;
     opacity: 0.15;
     box-shadow: 0 0 32px #00ffe7 inset;
+}
+
+/* Responsive adjustments for filter buttons & search (moved from index.html) */
+.cyber-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.cyber-controls .search-box {
+    flex: 1 1 220px;
+    min-width: 0;
+}
+
+/* allow search to shrink */
+.cyber-controls .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    /* fallback: allow horizontal scroll if needed */
+    -webkit-overflow-scrolling: touch;
+}
+
+.cyber-controls .filter-btn {
+    flex: 0 1 auto;
+    min-width: 96px;
+    padding: 10px 14px;
+    box-sizing: border-box;
+    white-space: nowrap;
+}
+
+/* Tighter sizing on narrow viewports */
+@media (max-width: 420px) {
+    .cyber-controls {
+        gap: 0.5rem;
+    }
+
+    .cyber-controls .search-box {
+        flex: 1 1 100%;
+        order: 1;
+    }
+
+    .cyber-controls .filter-buttons {
+        width: 100%;
+        order: 2;
+    }
+
+    .cyber-controls .filter-btn {
+        flex: 1 1 30%;
+        min-width: 0;
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 360px) {
+    .cyber-controls .filter-btn {
+        font-size: 13px;
+        padding: 6px 8px;
+    }
 }
 
 /* Cyber stats container styling */
@@ -302,21 +363,6 @@ body {
     align-items: center;
     position: relative;
     overflow: hidden;
-    animation: cyberGlowPink 2.5s linear infinite;
-}
-
-.cyber-stats::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    pointer-events: none;
-    border-radius: 14px;
-    border: 1px solid #ff00cc;
-    opacity: 0.13;
-    box-shadow: 0 0 32px #ff00cc inset;
 }
 
 /* Stats */
@@ -782,17 +828,6 @@ body {
     cursor: pointer;
     transition: left 0.3s cubic-bezier(.77, .2, .05, 1), box-shadow 0.2s, transform 0.18s;
     outline: none;
-    animation: sidebarPulse 2.2s infinite alternate;
-}
-
-@keyframes sidebarPulse {
-    0% {
-        box-shadow: 0 0 24px #00ffe7, 0 0 8px #ff00cc inset, 0 0 32px #0ff;
-    }
-
-    100% {
-        box-shadow: 0 0 36px #00ffe7, 0 0 16px #ff00cc inset, 0 0 48px #0ff;
-    }
 }
 
 .sidebar-toggle:hover {
@@ -816,7 +851,7 @@ body {
     transform: scale(1.12);
 }
 
-/* Theme toggle button - cyberpunk style */
+/* Theme toggle button - fixed under sidebar toggle */
 .theme-toggle {
     display: inline-flex;
     align-items: center;
@@ -833,10 +868,15 @@ body {
     cursor: pointer;
     transition: box-shadow 0.22s, border-color 0.22s, transform 0.18s, background 0.22s;
     outline: none;
-    position: relative;
-    margin: 0 8px;
+    position: fixed;
+    /* fixed to follow sidebar toggle */
+    left: 358px;
+    /* align with sidebar-toggle by default */
+    top: 86px;
+    /* place below the sidebar-toggle (32px + 44px + spacing) */
+    z-index: 102;
+    margin: 0;
     backdrop-filter: blur(2px);
-    animation: playBtnPulse 2.2s infinite alternate;
 }
 
 .theme-toggle:hover {
@@ -846,7 +886,7 @@ body {
     transform: scale(1.09);
 }
 
-/* Theme icon inside button - neon glow */
+/* keep icon style unchanged */
 .theme-toggle #themeIcon,
 .theme-toggle svg {
     width: 28px;
@@ -858,167 +898,58 @@ body {
     background: none;
 }
 
-.theme-toggle:hover #themeIcon,
-.theme-toggle:hover svg {
-    filter: drop-shadow(0 0 16px #ff00cc) drop-shadow(0 0 8px #00ffe7);
-    transform: scale(1.12);
-}
-
-/* Responsive adjustments for small screens */
-@media (max-width: 900px) {
-    .sidebar-toggle {
-        left: calc(80vw + 18px);
-    }
-}
-
-@media (max-width: 600px) {
-    .sidebar-toggle {
-        left: 18px;
-        top: 12px;
-        width: 38px;
-        height: 38px;
-    }
-
-    body.sidebar-open .sidebar-toggle {
-        left: calc(100vw - 56px);
-    }
-}
-
-/* Main content shifts right when sidebar is visible */
-body {
-    transition: padding-left 0.3s cubic-bezier(.77, .2, .05, 1);
-}
-
-body.sidebar-open .main {
-    margin-left: 340px;
-    transition: margin-left 0.3s cubic-bezier(.77, .2, .05, 1);
-}
-
-body:not(.sidebar-open) .sidebar-header {
-    transform: translateX(-110%);
-}
-
-body.sidebar-open .sidebar-header {
-    transform: translateX(0);
-}
-
-body.sidebar-open .sidebar-toggle {
-    left: 358px;
-    /* visually next to sidebar */
-}
-
-.main {
-    transition: margin-left 0.3s cubic-bezier(.77, .2, .05, 1);
-}
-
-/* Responsive sidebar for small screens */
-@media (max-width: 900px) {
-    .sidebar-header {
-        width: 80vw;
-        min-width: 0;
-        max-width: 100vw;
-    }
-
-    body.sidebar-open .main {
-        margin-left: 0;
-        margin-top: 0;
-    }
-
-    .main {
-        margin-left: 0;
-    }
-
-    body.sidebar-open .sidebar-toggle {
-        left: calc(80vw + 18px);
-    }
-}
-
-@media (max-width: 600px) {
-    .sidebar-header {
-        width: 100vw;
-        max-width: 100vw;
-        border-radius: 0;
-        box-shadow: 0 0 24px 0 rgba(0, 229, 255, 0.10);
-    }
-
-    .sidebar-header .header {
-        border-radius: 0;
-        padding: 24px 12px 18px 12px;
-    }
-
-    .sidebar-toggle {
-        left: 18px;
-        top: 12px;
-        width: 38px;
-        height: 38px;
-    }
-
-    body.sidebar-open .sidebar-toggle {
-        left: calc(100vw - 56px);
-    }
-}
-
-/* Ensure repo grid and controls are responsive */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    transition: margin-left 0.3s cubic-bezier(.77, .2, .05, 1);
-}
-
-@media (max-width: 900px) {
-    .container {
-        padding: 0 8px;
-    }
-}
-
-@media (max-width: 600px) {
-    .container {
-        padding: 0 2vw;
-    }
-}
-
-.repo-header {
+/* New: grouped toggles wrapper so sidebar-toggle and theme-toggle are aligned */
+.toggles-wrapper {
+    position: fixed;
+    top: 32px;
+    left: 18px;
+    /* default inset on small screens */
     display: flex;
-    align-items: center;
     gap: 12px;
-    margin-bottom: 8px;
-}
-
-.repo-icon {
-    display: flex;
     align-items: center;
-    justify-content: center;
+    z-index: 201;
+    transition: left 0.3s cubic-bezier(.77, .2, .05, 1), transform 0.18s, box-shadow 0.2s;
+    pointer-events: auto;
 }
 
-.repo-language {
-    display: inline-block;
-    font-size: 0.98rem;
-    color: var(--accent);
-    background: rgba(0, 229, 255, 0.08);
-    border-radius: 8px;
-    padding: 2px 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    margin-right: 2px;
-    margin-left: 2px;
-    /* visually beside icon */
-}
-
-.flag-card {
-    border: 2.5px solid #b91010;
-    box-shadow: 0 0 32px #b91010, 0 0 12px #ff0000 inset;
-    background: linear-gradient(120deg, rgba(16, 185, 129, 0.18) 0%, rgba(0, 229, 255, 0.10) 100%);
-    position: relative;
-    animation: flagGlow 2s infinite alternate;
-}
-
-@keyframes flagGlow {
-    0% {
-        box-shadow: 0 0 32px #b91010, 0 0 12px #ff0000 inset;
-    }
-
-    100% {
-        box-shadow: 0 0 48px #b91010, 0 0 24px #ff0000 inset;
+/* When sidebar is open on wide screens, place wrapper beside the sidebar (original desktop offset) */
+@media (min-width: 901px) {
+    body.sidebar-open .toggles-wrapper {
+        left: calc(340px + 18px);
+        /* match previous left: 358px logic (sidebar width + spacing) */
     }
 }
+
+/* When sidebar is open on narrower screens where sidebar becomes 80vw, mirror previous calc */
+@media (max-width: 900px) {
+    body.sidebar-open .toggles-wrapper {
+        left: calc(80vw + 18px);
+    }
+}
+
+/* Buttons inside wrapper should not be fixed — they should flow inside the wrapper */
+.toggles-wrapper .sidebar-toggle,
+.toggles-wrapper .theme-toggle {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    /* keep visual styles but avoid per-button fixed positioning */
+}
+
+/* Adjust theme-toggle vertical alignment and sizing inside the wrapper for very small screens */
+@media (max-width: 600px) {
+    .toggles-wrapper {
+        top: 12px;
+        left: 12px;
+        gap: 8px;
+    }
+
+    .toggles-wrapper .theme-toggle {
+        width: 38px;
+        height: 38px;
+    }
+}
+
+/* ensure existing rules that set .sidebar-toggle and .theme-toggle positions don't conflict when inside the wrapper */
+/* (other global selectors in this file will remain; the wrapper-scoped rules above take precedence) */

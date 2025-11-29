@@ -15,10 +15,18 @@
 <body>
     <div class="particles" id="particles"></div>
 
-    <!-- Sidebar toggle button -->
-    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
-        <span class="sidebar-toggle-icon"></span>
-    </button>
+    <!-- Grouped toggles: keep buttons visually adjacent and easier to position responsively -->
+    <div class="toggles-wrapper" aria-hidden="false">
+        <!-- Sidebar toggle button -->
+        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
+            <span class="sidebar-toggle-icon"></span>
+        </button>
+
+        <!-- moved theme toggle here so it appears below the sidebar toggle -->
+        <button id="themeToggle" class="theme-toggle" title="Toggle animations" aria-label="Toggle animations">
+            <span id="themeIcon"></span>
+        </button>
+    </div>
 
     <!-- Sidebar header -->
     <aside class="sidebar-header" id="sidebarHeader">
@@ -30,9 +38,7 @@
                 </h1>
                 <p class="subtitle">Ghost of Clyde</p>
                 <div class="header-actions">
-                    <button id="themeToggle" class="theme-toggle" title="Toggle animations">
-                        <span id="themeIcon"></span>
-                    </button>
+                    <!-- removed theme-toggle from here -->
                 </div>
                 <div class="stats-container cyber-stats">
                     <div class="stat-card">
