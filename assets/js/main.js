@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupThemeToggle();
     setAnimationIcon();
 
+    setupLanguageToggle(); // wire language toggle early so UI text reflects choice
+
+    setupCopyProtection(); // <-- new: disable right-click / select / copy globally
+
     await loadRepositories();
 
     // initial sidebar state
@@ -137,4 +141,75 @@ function setupSidebarToggle() {
             sidebarHeader.classList.remove('hide');
         }
     });
+}
+
+/* language toggle wiring */
+function setupLanguageToggle() {
+    const btn = UI.DOM.langToggle;
+    const label = UI.DOM.langLabel;
+    if (!btn) return;
+
+    // initialize aria-label and ensure label reflects stored language
+    const initial = localStorage.getItem('cg_lang') || 'en';
+    btn.setAttribute('aria-label', `Language: ${initial.toUpperCase()}`);
+    if (label) label.textContent = initial === 'jp' ? 'JP' : (initial === 'de' ? 'DE' : 'EN');
+
+    // cycle through en -> jp -> de -> en
+    btn.addEventListener('click', () => {
+        const current = localStorage.getItem('cg_lang') || 'en';
+        const next = current === 'en' ? 'jp' : (current === 'jp' ? 'de' : 'en');
+        UI.setLanguage(next);
+        btn.setAttribute('aria-label', `Language: ${next.toUpperCase()}`);
+        // ui.setLanguage already updates DOM.langLabel, but keep label in sync defensively
+        if (label) label.textContent = next === 'jp' ? 'JP' : (next === 'de' ? 'DE' : 'EN');
+    });
+}
+
+/* New: copy/selection/contextmenu protection (respects inputs and contenteditable) */
+function isEditableTarget(target) {
+    if (!target) return false;
+    if (target.closest) {
+        return !!target.closest('input, textarea, select, [contenteditable], [contenteditable="true"]');
+    }
+    return false;
+}
+
+function setupCopyProtection() {
+    // disable right-click context menu globally except on editable controls
+    document.addEventListener('contextmenu', (e) => {
+        if (isEditableTarget(e.target)) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    // prevent mouse-driven selection start globally except on editable controls
+    document.addEventListener('selectstart', (e) => {
+        if (isEditableTarget(e.target)) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    // block copy/cut events globally except when originating from editable controls
+    document.addEventListener('copy', (e) => {
+        if (isEditableTarget(e.target)) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('cut', (e) => {
+        if (isEditableTarget(e.target)) return;
+        e.preventDefault();
+    }, { passive: false });
+
+    // block common keyboard shortcuts: Ctrl/Cmd+A, Ctrl/Cmd+C, Ctrl/Cmd+X (but allow in inputs)
+    document.addEventListener('keydown', (e) => {
+        const key = (e.key || '').toLowerCase();
+        const ctrlOrCmd = e.ctrlKey || e.metaKey;
+        if (!ctrlOrCmd) return;
+
+        // allow shortcuts in editable targets
+        if (isEditableTarget(e.target)) return;
+
+        if (key === 'a' || key === 'c' || key === 'x') {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    }, { passive: false });
 }

@@ -10,23 +10,12 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <!-- add cyber font -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <!-- added: Japanese font for canvas rendering -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="particles" id="particles"></div>
-
-    <!-- Grouped toggles: keep buttons visually adjacent and easier to position responsively -->
-    <div class="toggles-wrapper" aria-hidden="false">
-        <!-- Sidebar toggle button -->
-        <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar" aria-label="Toggle sidebar">
-            <span class="sidebar-toggle-icon"></span>
-        </button>
-
-        <!-- moved theme toggle here so it appears below the sidebar toggle -->
-        <button id="themeToggle" class="theme-toggle" title="Toggle animations" aria-label="Toggle animations">
-            <span id="themeIcon"></span>
-        </button>
-    </div>
 
     <!-- Sidebar header -->
     <aside class="sidebar-header" id="sidebarHeader">
@@ -67,6 +56,24 @@
     <main class="main" id="mainContent">
         <div class="container">
             <div class="controls cyber-controls">
+                <div class="toggle-buttons">
+                    <!-- moved buttons here so they sit inline with the controls -->
+                    <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar"
+                        aria-label="Toggle sidebar">
+                        <span class="sidebar-toggle-icon"></span>
+                    </button>
+
+                    <button id="themeToggle" class="theme-toggle" title="Toggle animations"
+                        aria-label="Toggle animations">
+                        <span id="themeIcon"></span>
+                    </button>
+
+                    <button id="langToggle" class="theme-toggle lang-toggle" title="Toggle language"
+                        aria-label="Toggle language">
+                        <span id="langLabel">EN</span>
+                    </button>
+                </div>
+
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Search repositories..." class="search-input">
                     <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
@@ -92,8 +99,7 @@
                 <p>Failed to load repositories. Please try again later.</p>
             </div>
 
-            <div id="repoGrid" class="repo-grid">
-            </div>
+            <div id="repoGrid" class="repo-grid"></div>
         </div>
         </div>
     </main>

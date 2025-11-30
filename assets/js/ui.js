@@ -1,4 +1,5 @@
 import { escapeHtml, formatRepoDate, animateValue } from './utils.js';
+import { translations } from './translations.js'; // <-- new import
 
 export const DOM = {
     repoGrid: document.getElementById('repoGrid'),
@@ -12,7 +13,9 @@ export const DOM = {
     themeToggle: document.getElementById('themeToggle'),
     themeIcon: document.getElementById('themeIcon'),
     sidebarToggle: document.getElementById('sidebarToggle'),
-    sidebarHeader: document.getElementById('sidebarHeader')
+    sidebarHeader: document.getElementById('sidebarHeader'),
+    langToggle: document.getElementById('langToggle'),
+    langLabel: document.getElementById('langLabel')
 };
 
 // add module-level flag to remember desired repo-name glitch state
@@ -316,3 +319,65 @@ function getRepoIcon(repo) {
         </svg>
     `;
 }
+
+/* translations: minimal set for UI strings we change */
+let currentLang = localStorage.getItem('cg_lang') || 'en';
+
+/* setLanguage updates visible UI text (title, subtitle, placeholders, filter labels, stat labels, loading/error) */
+export function setLanguage(lang = 'en') {
+    currentLang = lang === 'jp' ? 'jp' : (lang === 'de' ? 'de' : 'en');
+    localStorage.setItem('cg_lang', currentLang);
+
+    const t = translations[currentLang];
+
+    // title main/sub (data-text attributes used by .glitch pseudo-elements)
+    const titleMain = document.querySelector('.title-main');
+    const titleSub = document.querySelector('.title-sub');
+    if (titleMain) {
+        titleMain.dataset.text = t.titleMain;
+        titleMain.textContent = t.titleMain;
+    }
+    if (titleSub) {
+        titleSub.dataset.text = t.titleSub;
+        titleSub.textContent = t.titleSub;
+    }
+
+    // subtitle
+    const subtitleEl = document.querySelector('.subtitle');
+    if (subtitleEl) subtitleEl.textContent = t.subtitle;
+
+    // search placeholder
+    if (DOM.searchInput) DOM.searchInput.placeholder = t.searchPlaceholder;
+
+    // filter buttons (preserve dataset.filter values)
+    if (DOM.filterButtons && DOM.filterButtons.length) {
+        DOM.filterButtons.forEach((btn, idx) => {
+            btn.textContent = t.filters[idx] || btn.textContent;
+        });
+    }
+
+    // stat labels in header (ordered)
+    const statLabels = document.querySelectorAll('.stats-container .stat-label');
+    if (statLabels && statLabels.length >= 3) {
+        statLabels[0].textContent = t.stats[0];
+        statLabels[1].textContent = t.stats[1];
+        statLabels[2].textContent = t.stats[2];
+    }
+
+    // loading / error texts
+    if (DOM.loading) {
+        const p = DOM.loading.querySelector('p');
+        if (p) p.textContent = t.loading;
+    }
+    if (DOM.error) {
+        const p = DOM.error.querySelector('p');
+        if (p) p.textContent = t.error;
+    }
+
+    // update small flag content (if search-flag behavior used elsewhere)
+    // update lang label on button if present
+    if (DOM.langLabel) DOM.langLabel.textContent = currentLang === 'jp' ? 'JP' : (currentLang === 'de' ? 'DE' : 'EN');
+}
+
+/* ensure initial language reflected on load */
+setLanguage(currentLang);
