@@ -81,7 +81,7 @@ export function displayRepositories(repos = [], searchValue = '') {
                 <div class="repo-language">Secret 2</div>
             </div> 
             <p class="repo-description"> 
-                <a href="https://daxxtropezz.github.io/" target="_blank" style="color:#6d28d9;font-weight:700;">Operating System Game</a>
+                <a href="https://daxxtropezz.github.io/?utm_source=clever-gang.github.io" target="_blank" style="color:#6d28d9;font-weight:700;">Operating System Game</a>
             </p>
             <div class="repo-stats">
                 <span class="stat" style="color:#10b981;font-weight:700;">
