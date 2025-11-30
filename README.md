@@ -4,6 +4,8 @@
 
 ---
 
+  <img src="https://count.getloli.com/@Daxxtropezz?name=Daxxtropezz&theme=gelbooru-h&padding=5&offset=100&align=center&scale=1&pixelated=1&darkmode=auto&prefix=69" alt="alt" />
+
 ## ⚡️ About
 
 A futuristic, cyberpunk-inspired dashboard for the Clever Gang GitHub organization.  
