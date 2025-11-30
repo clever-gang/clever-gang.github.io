@@ -64,7 +64,7 @@ export function displayRepositories(repos = [], searchValue = '') {
                 <div class="repo-language">Secret 1</div>
             </div>
             <p class="repo-description">
-                <a href="https://daxxtropezz.vercel.app/" target="_blank" style="color:#00e5ff;font-weight:700;">My Profile</a>
+                <a href="https://daxxtropezz.vercel.app/" target="_blank" draggable="false" style="color:#00e5ff;font-weight:700;">My Profile</a>
             </p>
             <div class="repo-stats">
                 <span class="stat" style="color:#10b981;font-weight:700;">
@@ -84,7 +84,7 @@ export function displayRepositories(repos = [], searchValue = '') {
                 <div class="repo-language">Secret 2</div>
             </div> 
             <p class="repo-description"> 
-                <a href="https://daxxtropezz.github.io/?utm_source=clever-gang.github.io" target="_blank" style="color:#6d28d9;font-weight:700;">Operating System Game</a>
+                <a href="https://daxxtropezz.github.io/?utm_source=clever-gang.github.io" target="_blank" draggable="false" style="color:#6d28d9;font-weight:700;">Operating System Game</a>
             </p>
             <div class="repo-stats">
                 <span class="stat" style="color:#10b981;font-weight:700;">
@@ -160,7 +160,7 @@ export function createRepoCard(repo, index = 0) {
             <div class="repo-icon">${icon}</div>
             ${language !== 'Unknown' ? `<div class="repo-language">${language}</div>` : ''} 
         </div>
-        <a href="${repo.html_url}" target="_blank" class="repo-name glitch" data-text="${escapeHtml(repo.name)}">${repo.name}</a>
+        <a href="${repo.html_url}" target="_blank" draggable="false" class="repo-name glitch" data-text="${escapeHtml(repo.name)}">${repo.name}</a>
         <p class="repo-description">${description}</p>
         <div class="repo-stats">
             ${stars > 0 ? `

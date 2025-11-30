@@ -56,6 +56,21 @@
     <main class="main" id="mainContent">
         <div class="container">
             <div class="controls cyber-controls">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search repositories..." class="search-input">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="public">Public</button>
+                    <button class="filter-btn" data-filter="forked">Forked</button>
+                </div>
+
                 <div class="toggle-buttons">
                     <!-- moved buttons here so they sit inline with the controls -->
                     <button class="sidebar-toggle" id="sidebarToggle" title="Toggle sidebar"
@@ -72,21 +87,6 @@
                         aria-label="Toggle language">
                         <span id="langLabel">EN</span>
                     </button>
-                </div>
-
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search repositories..." class="search-input">
-                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.35-4.35"></path>
-                    </svg>
-                </div>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="public">Public</button>
-                    <button class="filter-btn" data-filter="forked">Forked</button>
                 </div>
             </div>
 
