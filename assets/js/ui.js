@@ -64,7 +64,7 @@ export function displayRepositories(repos = [], searchValue = '') {
                 <div class="repo-language">Secret 1</div>
             </div>
             <p class="repo-description">
-                <a href="https://daxxtropezz.vercel.app/" target="_blank" draggable="false" style="color:#00e5ff;font-weight:700;">My Profile</a>
+                <a data-href="https://daxxtropezz.vercel.app/" role="link" tabindex="0" draggable="false" style="color:#00e5ff;font-weight:700;" target="_blank">My Profile</a>
             </p>
             <div class="repo-stats">
                 <span class="stat" style="color:#10b981;font-weight:700;">
@@ -84,7 +84,7 @@ export function displayRepositories(repos = [], searchValue = '') {
                 <div class="repo-language">Secret 2</div>
             </div> 
             <p class="repo-description"> 
-                <a href="https://daxxtropezz.github.io/?utm_source=clever-gang.github.io" target="_blank" draggable="false" style="color:#6d28d9;font-weight:700;">Operating System Game</a>
+                <a data-href="https://daxxtropezz.github.io/?utm_source=clever-gang.github.io" role="link" tabindex="0" draggable="false" style="color:#6d28d9;font-weight:700;" target="_blank">Operating System Game</a>
             </p>
             <div class="repo-stats">
                 <span class="stat" style="color:#10b981;font-weight:700;">
@@ -122,7 +122,7 @@ export function createRepoCard(repo, index = 0) {
     card.style.animationDelay = `${index * 0.05}s`;
 
     const icon = getRepoIcon(repo);
-    const description = repo.description || 'No description available';
+    const description = repo.description || 'ǹ̸̨̲͚̚ȕ̸͖͙̟̺͑̔̇ḽ̵̍̋͛l̷͕̤̼͙̉̿';
     const language = repo.language || 'Unknown';
     const stars = repo.stargazers_count || 0;
     const forks = repo.forks_count || 0;
@@ -158,9 +158,8 @@ export function createRepoCard(repo, index = 0) {
     card.innerHTML = `
         <div class="repo-header">
             <div class="repo-icon">${icon}</div>
-            ${language !== 'Unknown' ? `<div class="repo-language">${language}</div>` : ''} 
         </div>
-        <a href="${repo.html_url}" target="_blank" draggable="false" class="repo-name glitch" data-text="${escapeHtml(repo.name)}">${repo.name}</a>
+        <a data-href="${repo.html_url}" role="link" tabindex="0" draggable="false" class="repo-name glitch" data-text="${escapeHtml(repo.name)}">${repo.name}</a>
         <p class="repo-description">${description}</p>
         <div class="repo-stats">
             ${stars > 0 ? `
@@ -176,6 +175,7 @@ export function createRepoCard(repo, index = 0) {
             <span class="stat">
                 ${dateSvg}
                 <span>${updated}</span>
+                ${language !== 'Unknown' ? `<div class="repo-language">${language}</div>` : ''} 
             </span>
         </div>
         <div class="repo-badges">${badges}</div>

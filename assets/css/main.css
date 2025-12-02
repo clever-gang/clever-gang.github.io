@@ -1018,3 +1018,10 @@ button,
     background: transparent;
     color: inherit;
 }
+
+a[data-href] {
+    cursor: pointer;
+    /* allow existing .repo-name styles to apply; don't force default underline */
+    color: inherit;
+    text-decoration: none;
+}

@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     setupCopyProtection(); // <-- new: disable right-click / select / copy globally
 
+    setupDataHrefLinks(); // ensure data-href links open correctly (prevents browser status preview)
+
     await loadRepositories();
 
     // initial sidebar state
@@ -210,6 +212,45 @@ function setupCopyProtection() {
         if (key === 'a' || key === 'c' || key === 'x') {
             e.preventDefault();
             e.stopPropagation();
+        }
+    }, { passive: false });
+}
+
+/* Ensure elements using data-href behave like links so the browser won't display the hovered URL preview */
+function setupDataHrefLinks() {
+    // click handler: supports modifier keys (ctrl/meta to open new tab) and respects target="_blank"
+    document.addEventListener('click', (e) => {
+        const el = e.target.closest && e.target.closest('a[data-href]');
+        if (!el) return;
+        const url = el.dataset.href;
+        if (!url) return;
+        const modifier = e.ctrlKey || e.metaKey;
+        const targetBlank = el.getAttribute('target') === '_blank';
+        try {
+            if (modifier || targetBlank) {
+                window.open(url, '_blank', 'noopener');
+            } else {
+                window.location.href = url;
+            }
+        } catch (err) {
+            // fallback
+            window.open(url, '_blank');
+        }
+        e.preventDefault();
+        e.stopPropagation();
+    }, { passive: false });
+
+    // keyboard activation for focused data-href anchors (Enter/Space)
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        const active = document.activeElement;
+        if (active && active.matches && active.matches('a[data-href]')) {
+            const url = active.dataset.href;
+            if (url) {
+                window.open(url, '_blank', 'noopener');
+                e.preventDefault();
+                e.stopPropagation();
+            }
         }
     }, { passive: false });
 }
